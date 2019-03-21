@@ -41,7 +41,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUser(@RequestBody User user){
-        throw new NotImplementedException();
+    	try {
+    		return new ResponseEntity<>(userServices.update(user),HttpStatus.CREATED);
+	    }catch(Exception e){
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+	    }
     }
 
     @ResponseBody

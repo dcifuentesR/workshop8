@@ -32,6 +32,7 @@ public class UserServices implements IUserServices{
             userRepository.save(user);
         return user;
     }
+    
 
     @Override
     public User get(UUID id) {
@@ -42,4 +43,24 @@ public class UserServices implements IUserServices{
     public User get(String name) {
         return userRepository.getUserByUserName(name);
     }
+
+	@Override
+	public User update(User user) {
+		if(null==user.getId())
+			throw new RuntimeException("Id invalid");
+		else {
+			userRepository.update(user);
+			return user;
+		}
+	}
+
+	@Override
+	public void delete(UUID id) {
+		if(userRepository.find(id) == null)
+			throw new RuntimeException("User doesn't exist");
+		else {
+			userRepository.delete(userRepository.find(id));
+		}
+		
+	}
 }
