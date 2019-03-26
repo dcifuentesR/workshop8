@@ -42,7 +42,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateUser(@RequestBody User user){
     	try {
-    		return new ResponseEntity<>(userServices.update(user),HttpStatus.CREATED);
+    		return new ResponseEntity<>(userServices.update(user),HttpStatus.ACCEPTED);
 	    }catch(Exception e){
 	        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 	    }
@@ -51,6 +51,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE, consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> deleteUser(@RequestBody UUID id){
-        throw new NotImplementedException();
+       try {
+    	   userServices.delete(id);
+    	   return new ResponseEntity<>(HttpStatus.ACCEPTED);
+       }catch(Exception e) {
+    	   return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+       }
     }
 }
